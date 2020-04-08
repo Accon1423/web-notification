@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-messaging.js"></script>
+    <script>
+        firebase.initializeApp({
+	    apiKey: "xyz",
+	    authDomain: "abc-xyz",
+	    databaseURL: "xyz.com",
+	    projectId: "projecitd",
+	    storageBucket: "xyzcom",
+	    messagingSenderId: "12345",
+	    appId: "12345"
+        })
+        const messaging = firebase.messaging();
+        function initFirebaseMessagingRegistration() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    messageElement.innerHTML = "true";                   
+                    console.log("Got permission to allow desktop notification");
+                    return messaging.getToken();
+                })
+                .then(function (token) {
+                    // print the token on the HTML page
+                    tokenElement.innerHTML = token;
+                    console.log(token);
+                    //togglePushButton();
+                })
+                .catch(function (err) {
+                    errorElement.innerHTML = "Error: " + err;
+                    console.log("Didn't get notification permission", err);
+                });
+        }
+        messaging.onMessage(function (payload) {
+            console.log("Message received. ", JSON.stringify(payload));
+                       // notificationElement.innerHTML = notificationElement.innerHTML + " " + payload.data.icon;
+            const notificationTitle = payload.data.title;
+            const notificationOptions = {
+                body : payload.data.body,
+                icon : payload.data.icon,
+                data:{
+                    click_action : payload.data.click_action
+                }
+            }
+            var notification=new Notification(notificationTitle,notificationOptions);
+
+        });
+        messaging.onTokenRefresh(function () {
+            messaging.getToken()
+                .then(function (refreshedToken) {
+                    console.log('Token refreshed.');
+                    tokenElement.innerHTML = "Token is " + refreshedToken;
+                }).catch(function (err) {
+                    errorElement.innerHTML = "Error: " + err;
+                    console.log('Unable to retrieve refreshed token ', err);
+                });
+        });
+
+        function firePushNotification(){
+            var token =document.getElementById("token").innerHTML;
+			var serverKey='xyz';
+            var obj=JSON.stringify({"data":{
+                        "title":"WEB NOTIFICATION",
+                        "body":"Web notification example rendered by the user",
+                        "icon":"http://localhost:8080/icon.png",
+                        "click_action":"https://www.google.com"
+                    },
+                        "registration_ids":[token]
+                        
+                    })
+            $.ajax({
+
+                url:'https://fcm.googleapis.com/fcm/send',
+                type: 'POST',
+                data: obj,
+                headers:{'Authorization':'Bearer '+serverKey},
+                contentType: 'application/json; charset=utf-8',
+                sucess: function(data){
+                        console.log(data);
+                },
+                fail: function(data) {
+                    console.log(data);
+                }
+
+            });
+
+        }
+
+        function togglePushButton() {
+            var x = document.getElementById("pushbutton");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>This is Simple Web Page for Testing</h1><br>
+	<table border="1px"; style="text-align: center;">
+        <tr>
+            <td>Permission Granted</td>
+            <td>Token</td>
+        </tr>
+        <tr>
+            <td><div id="message" style="color:darkblue">false</div></td>
+            <td> <div id="token" style="color:black"></div><br></td>
+        </tr>
+	</table>
+    <br>
+    <div id="pushbutton" style="display: none;"><button onclick='firePushNotification()'>Send Push Notification</button></div><br>
+    <div id="notification" style="color:green"></div><br>
+    <div id="error" style="color:red">
+    <script>
+        messageElement = document.getElementById("message")
+        tokenElement = document.getElementById("token")
+        notificationElement = document.getElementById("notification")
+        errorElement = document.getElementById("error")
+        pushElement=document.getElementById("PushButton")
+    </script>
+    <button onclick="initFirebaseMessagingRegistration()">Generate Firebase Token</button>
+
+</html>
