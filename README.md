@@ -14,7 +14,7 @@ Steps to setup the project :
 	    apiKey: "xyz",
 	    authDomain: "abc-xyz",
 	    databaseURL: "xyz.com",
-	    projectId: "projecitd",
+	    projectId: "web-notification-d538f",
 	    storageBucket: "xyzcom",
 	    messagingSenderId: "12345",
 	    appId: "12345"

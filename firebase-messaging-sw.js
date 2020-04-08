@@ -17,7 +17,7 @@ importScripts('https://www.gstatic.com/firebasejs/7.11.0/firebase-messaging.js')
 	    apiKey: "xyz",
 	    authDomain: "abc-xyz",
 	    databaseURL: "xyz.com",
-	    projectId: "projecitd",
+	    projectId: "web-notification-d538f",
 	    storageBucket: "xyzcom",
 	    messagingSenderId: "12345",
 	    appId: "12345"
