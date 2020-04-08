@@ -3,9 +3,9 @@ Steps to setup the project :
 
 1.) Download apache tomcat server 
 
-2.) Clear the content of root folder except web apps
+2.) Clear the content of ROOT folder except WEB-INF
 
-3.) Copy and paste the content of the repository
+3.) Copy and paste the content of the repository except screenshot folder.
 
 4.) Open the index.html and firebase-messaging-sw.js file
 
@@ -51,4 +51,4 @@ Steps to generate the web notification:
 
 6.)Click on send and see if the request is successful.
 
-7.)Wait for some second to recieve the notification on your system.
+7.)Wait for some second to recieve the notification on your system (See the image screenshot for reference)
