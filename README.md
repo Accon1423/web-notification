@@ -24,18 +24,20 @@ Steps to generate the web notification
 3.) A token will be generated and permissionGranted column will change to true if connection is succesful.
 4.) Copy the token.
 5.) Use any api tool such as postman to generate the notification with the following parameters :
+
 	            url:'https://fcm.googleapis.com/fcm/send',
                 type: 'POST',
                 Authorization: BearerToken---your legacyServerKey
                 contentType: 'application/json; charset=utf-8'
 				body:
-				"title":"WEB NOTIFICATION",
-                        "body":"Web notification example rendered by the user",
-                        "icon":"http://localhost:8080/icon.png",
-                        "click_action":"https://www.google.com"
-                    },
-                        "registration_ids":[your-token]
-                        
-                    }
+					{"data":{
+						"title":"WEB NOTIFICATION",
+						"body":"Web notification example rendered by the user",
+						"icon":"http://localhost:8080/icon.png",
+						"click_action":"https://www.google.com"
+					},
+						"registration_ids":[your-token]
+					}
+
 6.)Click on send and see if the request is successful.
 7.)Wait for some second to recieve the notification on ur system.
